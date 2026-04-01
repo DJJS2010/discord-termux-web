@@ -26,3 +26,47 @@ document.getElementById("update").innerText =
 }
 
 getUpdate()
+
+const CLIENT_ID = "1377273383124734036"
+const REDIRECT = window.location.origin + window.location.pathname
+
+function login(){
+
+let url =
+"https://discord.com/oauth2/authorize?client_id="
++ CLIENT_ID +
+"&response_type=token&redirect_uri="
++ encodeURIComponent(REDIRECT) +
+"&scope=identify"
+
+window.location = url
+
+}
+
+function getUser(){
+
+let hash = window.location.hash
+
+if(!hash) return
+
+let token = hash.split("access_token=")[1].split("&")[0]
+
+fetch("https://discord.com/api/users/@me",{
+headers:{
+authorization:"Bearer " + token
+}
+})
+.then(res=>res.json())
+.then(user=>{
+
+document.getElementById("user").innerHTML =
+
+`<img src="https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png" width="60">
+<br>
+Logged in as ${user.username}`
+
+})
+
+}
+
+getUser()
