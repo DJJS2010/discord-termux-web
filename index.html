@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Send Discord Message</title>
+</head>
+
+<body>
+
+<h1>Discord Sender</h1>
+
+<input id="msg" placeholder="message">
+<button onclick="send()">Send</button>
+
+<script>
+async function send(){
+
+const message = document.getElementById("msg").value
+
+await fetch("http://YOUR_TERMUX_IP:3000/send",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({message})
+})
+
+}
+</script>
+
+</body>
+</html>
