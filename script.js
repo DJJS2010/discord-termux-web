@@ -1,76 +1,41 @@
-async function send(){
-
-let msg = document.getElementById("msg").value
-
-document.getElementById("status").innerText =
-"Message ready: " + msg
-
-}
-
-// show last github update
-async function getUpdate(){
-
-let repo = "DJJS2010/discord-termux-web"
-
-let res = await fetch(
-"https://api.github.com/repos/" + repo + "/commits"
-)
-
-let data = await res.json()
-
-let date = new Date(data[0].commit.author.date)
-
-document.getElementById("update").innerText =
-"Last website update: " + date.toLocaleString()
-
-}
-
-getUpdate()
-
 const CLIENT_ID = "1377273383124734036"
-const REDIRECT = window.location.origin + window.location.pathname
+const REDIRECT_URI = "https://djjs2010.github.io/discord-termux-web"
 
-function login(){
+function login() {
+  const url =
+    "https://discord.com/oauth2/authorize" +
+    "?client_id=" + CLIENT_ID +
+    "&response_type=token" +
+    "&redirect_uri=" + encodeURIComponent(REDIRECT_URI) +
+    "&scope=identify"
 
-console.log("Login clicked")
-
-let url =
-"https://discord.com/oauth2/authorize?client_id="
-+ CLIENT_ID +
-"&response_type=token&redirect_uri="
-+ encodeURIComponent(REDIRECT) +
-"&scope=identify"
-
-console.log(url)
-
-window.location = url
-
+  window.location.href = url
 }
 
-function getUser(){
+function getUser() {
+  if (!window.location.hash) return
 
-let hash = window.location.hash
+  const params = new URLSearchParams(window.location.hash.substring(1))
+  const token = params.get("access_token")
 
-if(!hash) return
+  if (!token) return
 
-let token = hash.split("access_token=")[1].split("&")[0]
-
-fetch("https://discord.com/api/users/@me",{
-headers:{
-authorization:"Bearer " + token
-}
-})
-.then(res=>res.json())
-.then(user=>{
-
-document.getElementById("user").innerHTML =
-
-`<img src="https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png" width="60">
-<br>
-Logged in as ${user.username}`
-
-})
-
+  fetch("https://discord.com/api/users/@me", {
+    headers: {
+      Authorization: "Bearer " + token
+    }
+  })
+  .then(res => res.json())
+  .then(user => {
+    document.getElementById("user").innerHTML = `
+      <img src="https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png" width="60"><br>
+      Logged in as ${user.username}
+    `
+  })
+  .catch(err => {
+    document.getElementById("user").innerText = "Login failed"
+    console.error(err)
+  })
 }
 
 getUser()
