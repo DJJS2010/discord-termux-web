@@ -1,15 +1,9 @@
-const CLIENT_ID = "1377273383124734036"
-const REDIRECT_URI = "https://djjs2010.github.io/discord-termux-web"
-
 function login() {
-  const url =
-    "https://discord.com/oauth2/authorize" +
-    "?client_id=" + CLIENT_ID +
-    "&response_type=token" +
-    "&redirect_uri=" + encodeURIComponent(REDIRECT_URI) +
-    "&scope=identify"
 
-  window.location.href = url
+const url = "https://discord.com/oauth2/authorize?client_id=1377273383124734036&response_type=token&redirect_uri=https%3A%2F%2Fdjjs2010.github.io%2Fdiscord-termux-web&scope=identify"
+
+window.location.href = url
+
 }
 
 function getUser() {
