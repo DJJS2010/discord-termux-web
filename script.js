@@ -32,12 +32,16 @@ const REDIRECT = window.location.origin + window.location.pathname
 
 function login(){
 
+console.log("Login clicked")
+
 let url =
 "https://discord.com/oauth2/authorize?client_id="
 + CLIENT_ID +
 "&response_type=token&redirect_uri="
 + encodeURIComponent(REDIRECT) +
 "&scope=identify"
+
+console.log(url)
 
 window.location = url
 
