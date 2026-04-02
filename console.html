@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Discord Termux Console</title>
+<style>
+body {
+    background: #111;
+    color: #0f0;
+    font-family: monospace;
+    margin: 0;
+    padding: 0;
+}
+
+#console {
+    width: 100%;
+    height: 100vh;
+    padding: 10px;
+    overflow-y: scroll;
+    box-sizing: border-box;
+    white-space: pre-wrap;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    background: #222;
+    border: none;
+    color: #0f0;
+    font-family: monospace;
+}
+</style>
+</head>
+<body>
+
+<div id="console">Console initialized...\n</div>
+<input id="command" placeholder="Type command and press Enter">
+
+<script>
+const consoleDiv = document.getElementById("console");
+const input = document.getElementById("command");
+
+input.addEventListener("keypress", function(e){
+    if(e.key === "Enter"){
+        const cmd = input.value;
+        input.value = "";
+        consoleDiv.innerText += "\n> " + cmd;
+        // Add custom command handling here
+        if(cmd.toLowerCase() === "help"){
+            consoleDiv.innerText += "\nAvailable commands:\nhelp - show this\nclear - clear console";
+        }
+        if(cmd.toLowerCase() === "clear"){
+            consoleDiv.innerText = "";
+        }
+        consoleDiv.scrollTop = consoleDiv.scrollHeight;
+    }
+});
+</script>
+
+</body>
+</html>
