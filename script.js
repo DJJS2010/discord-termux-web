@@ -1,7 +1,7 @@
-document.getElementById("consoleBtn").addEventListener("click", () => {
-    window.open("console.html", "_blank");
-});
+const CLIENT_ID = "1377273383124734036"
+const REDIRECT_URI = "https://djjs2010.github.io/discord-termux-web"
 
+// 🔐 LOGIN
 function login() {
 
 const url = "https://discord.com/oauth2/authorize?client_id=1377273383124734036&response_type=token&redirect_uri=https%3A%2F%2Fdjjs2010.github.io%2Fdiscord-termux-web&scope=identify"
@@ -10,44 +10,53 @@ window.location.href = url
 
 }
 
-function getUser() {
+// 🚪 LOGOUT
+function logout(){
+localStorage.removeItem("token")
+location.reload()
+}
 
-  if (!window.location.hash) return;
+// 👤 GET USER
+async function getUser() {
 
-  const params = new URLSearchParams(window.location.hash.substring(1));
-  const token = params.get("access_token");
+let token = null
 
-  if (!token) return;
+// 1️⃣ Check URL first
+if (window.location.hash.includes("access_token")) {
 
-  // ✅ REMOVE TOKEN FROM URL
-  window.history.replaceState({}, document.title, window.location.pathname);
+const params = new URLSearchParams(window.location.hash.substring(1))
+token = params.get("access_token")
 
-  fetch("https://discord.com/api/users/@me", {
-    headers: {
-      Authorization: "Bearer " + token
-    }
-  })
-  .then(res => res.json())
-  .then(user => {
-    document.getElementById("user").innerHTML = `
-      <img src="https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png" width="60"><br>
-      Logged in as ${user.username}
-    `;
-  });
+// 💾 SAVE TOKEN
+localStorage.setItem("token", token)
+
+// 🔥 REMOVE TOKEN FROM URL
+window.history.replaceState({}, document.title, window.location.pathname)
 
 }
+
+// 2️⃣ If not in URL, get from storage
+if (!token) {
+token = localStorage.getItem("token")
+}
+
+if (!token) return
+
+// 3️⃣ Fetch user
+const res = await fetch("https://discord.com/api/users/@me", {
+headers: {
+Authorization: "Bearer " + token
+}
+})
+
+const user = await res.json()
+
+document.getElementById("user").innerHTML = `
+<img src="https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png" width="80">
+<br>
+Logged in as ${user.username}
+`
+
+}
+
 getUser()
-
-async function send() {
-    let msg = document.getElementById("msg").value;
-
-    const webhook = "https://discord.com/api/webhooks/1488970613094617119/4rQwpRgn8CTDOp6bZSUhl0I4Bp6z7Hy_QWpj8zzvaB7OOtT_6kp8hlL2a-UGVM-n5_0m";
-
-    await fetch(webhook, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ content: msg })
-    });
-
-    document.getElementById("status").innerText = "Message sent to Discord!";
-}

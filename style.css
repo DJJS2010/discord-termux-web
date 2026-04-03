@@ -6,20 +6,16 @@ text-align:center;
 margin-top:100px;
 }
 
-input{
-padding:10px;
-font-size:16px;
-}
-
 button{
 padding:10px 20px;
-font-size:16px;
+margin:5px;
 background:#5865F2;
 color:white;
 border:none;
 cursor:pointer;
 }
 
-button:hover{
-background:#4752C4;
+img{
+border-radius:50%;
+margin-top:10px;
 }
