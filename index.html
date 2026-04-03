@@ -1,17 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Discord Webchat</title>
+<title>Discord Dashboard</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<button onclick="login()">Login with Discord</button>
+<div class="topbar">
+<button onclick="login()">Login</button>
 <button onclick="logout()">Logout</button>
+</div>
 
 <div id="user">Not logged in</div>
+
+<div class="chatbox">
+<input id="msg" placeholder="Type a message...">
+<button onclick="send()">Send</button>
+</div>
+
+<p id="status"></p>
 
 <script src="script.js"></script>
 

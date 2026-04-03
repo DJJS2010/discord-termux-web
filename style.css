@@ -1,21 +1,42 @@
 body{
-background:#111;
+background:#36393f;
 color:white;
 font-family:Arial;
+margin:0;
 text-align:center;
-margin-top:100px;
+}
+
+.topbar{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+background:#202225;
+padding:10px;
 }
 
 button{
-padding:10px 20px;
-margin:5px;
 background:#5865F2;
 color:white;
 border:none;
+padding:10px;
+margin:5px;
 cursor:pointer;
 }
 
-img{
+.chatbox{
+margin-top:100px;
+}
+
+input{
+padding:10px;
+width:70%;
+background:#40444b;
+border:none;
+color:white;
+}
+
+#user img{
 border-radius:50%;
-margin-top:10px;
+margin-top:20px;
 }
