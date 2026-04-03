@@ -11,12 +11,16 @@ window.location.href = url
 }
 
 function getUser() {
-  if (!window.location.hash) return
 
-  const params = new URLSearchParams(window.location.hash.substring(1))
-  const token = params.get("access_token")
+  if (!window.location.hash) return;
 
-  if (!token) return
+  const params = new URLSearchParams(window.location.hash.substring(1));
+  const token = params.get("access_token");
+
+  if (!token) return;
+
+  // ✅ REMOVE TOKEN FROM URL
+  window.history.replaceState({}, document.title, window.location.pathname);
 
   fetch("https://discord.com/api/users/@me", {
     headers: {
@@ -28,14 +32,10 @@ function getUser() {
     document.getElementById("user").innerHTML = `
       <img src="https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png" width="60"><br>
       Logged in as ${user.username}
-    `
-  })
-  .catch(err => {
-    document.getElementById("user").innerText = "Login failed"
-    console.error(err)
-  })
-}
+    `;
+  });
 
+}
 getUser()
 
 async function send() {
